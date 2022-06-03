@@ -5,7 +5,7 @@ This repository contains a code which you are supposed to work with. Please crea
 - Visual Studio 2022/Visual Studio Code/JetBrains Rider
 
 # Application
-The application is a simple Web Api that is responsible for managing static data of sports, such as teams, locations and so on.
+The application is a simple Web Api that is responsible for managing static sports data, such as teams, locations and so on.
 
 ## Challenge
 The task will be divided into two parts:
