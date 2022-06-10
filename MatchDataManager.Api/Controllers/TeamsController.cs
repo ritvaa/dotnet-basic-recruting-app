@@ -8,30 +8,37 @@ namespace MatchDataManager.Api.Controllers;
 [Route("[controller]")]
 public class TeamsController : ControllerBase
 {
+    private readonly ITeamRepository _teamRepository;
+
+    public TeamsController(ITeamRepository teamsRepository)
+    {
+        _teamRepository = teamsRepository;
+    }
+    
     [HttpPost]
     public IActionResult AddTeam(Team team)
     {
-        TeamsRepository.AddTeam(team);
+        _teamRepository.AddTeam(team);
         return CreatedAtAction(nameof(GetById), new {id = team.Id}, team);
     }
 
     [HttpDelete]
     public IActionResult DeleteTeam(Guid teamId)
     {
-        TeamsRepository.DeleteTeam(teamId);
+        _teamRepository.DeleteTeam(teamId);
         return NoContent();
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(TeamsRepository.GetAllTeams());
+        return Ok(_teamRepository.GetAllTeams());
     }
 
     [HttpGet("{id:guid}")]
     public IActionResult GetById(Guid id)
     {
-        var location = TeamsRepository.GetTeamById(id);
+        var location = _teamRepository.GetTeamById(id);
         if (location is null)
         {
             return NotFound();
@@ -43,7 +50,7 @@ public class TeamsController : ControllerBase
     [HttpPut]
     public IActionResult UpdateTeam(Team team)
     {
-        TeamsRepository.UpdateTeam(team);
+        _teamRepository.UpdateTeam(team);
         return Ok(team);
     }
 }
