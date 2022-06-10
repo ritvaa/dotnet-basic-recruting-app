@@ -8,30 +8,37 @@ namespace MatchDataManager.Api.Controllers;
 [Route("[controller]")]
 public class LocationsController : ControllerBase
 {
+    private readonly ILocationsRepository _locationsRepository;
+
+    public LocationsController(ILocationsRepository locationsRepository)
+    {
+        _locationsRepository = locationsRepository;
+    }
+    
     [HttpPost]
     public IActionResult AddLocation(Location location)
     {
-        LocationsRepository.AddLocation(location);
+        _locationsRepository.AddLocation(location);
         return CreatedAtAction(nameof(GetById), new {id = location.Id}, location);
     }
 
     [HttpDelete]
     public IActionResult DeleteLocation(Guid locationId)
     {
-        LocationsRepository.DeleteLocation(locationId);
+        _locationsRepository.DeleteLocation(locationId);
         return NoContent();
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(LocationsRepository.GetAllLocations());
+        return Ok(_locationsRepository.GetAllLocations());
     }
 
     [HttpGet("{id:guid}")]
     public IActionResult GetById(Guid id)
     {
-        var location = LocationsRepository.GetLocationById(id);
+        var location = _locationsRepository.GetLocationById(id);
         if (location is null)
         {
             return NotFound();
@@ -43,7 +50,15 @@ public class LocationsController : ControllerBase
     [HttpPut]
     public IActionResult UpdateLocation(Location location)
     {
-        LocationsRepository.UpdateLocation(location);
-        return Ok(location);
+        try
+        {
+            _locationsRepository.UpdateLocation(location);
+            return Ok(location);
+        }
+        catch (ArgumentException )
+        {
+            return NotFound();
+        }
+
     }
 }
