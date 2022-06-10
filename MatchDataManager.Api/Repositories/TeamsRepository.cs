@@ -2,38 +2,42 @@
 
 namespace MatchDataManager.Api.Repositories;
 
-public static class TeamsRepository
+public class TeamsRepository : ITeamRepository
 {
-    private static readonly List<Team> _teams = new();
+    private readonly MatchDataManagerDbContext _context;
 
-    public static void AddTeam(Team team)
+    public TeamsRepository(MatchDataManagerDbContext context)
+    {
+        _context = context;
+    }
+    public void AddTeam(Team team)
     {
         team.Id = Guid.NewGuid();
-        _teams.Add(team);
+        _context.Add(team);
     }
 
-    public static void DeleteTeam(Guid teamId)
+    public void DeleteTeam(Guid teamId)
     {
-        var team = _teams.FirstOrDefault(x => x.Id == teamId);
+        var team = _context.Teams.FirstOrDefault(x => x.Id == teamId);
         if (team is not null)
         {
-            _teams.Remove(team);
+            _context.Remove(team);
         }
     }
 
-    public static IEnumerable<Team> GetAllTeams()
+    public IEnumerable<Team> GetAllTeams()
     {
-        return _teams;
+        return _context.Teams;
     }
 
-    public static Team GetTeamById(Guid id)
+    public Team GetTeamById(Guid id)
     {
-        return _teams.FirstOrDefault(x => x.Id == id);
+        return _context.Teams.FirstOrDefault(x => x.Id == id);
     }
 
-    public static void UpdateTeam(Team team)
+    public void UpdateTeam(Team team)
     {
-        var existingTeam = _teams.FirstOrDefault(x => x.Id == team.Id);
+        var existingTeam = _context.Teams.FirstOrDefault(x => x.Id == team.Id);
         if (existingTeam is null || team is null)
         {
             throw new ArgumentException("Team doesn't exist.", nameof(team));
@@ -41,5 +45,15 @@ public static class TeamsRepository
 
         existingTeam.CoachName = team.CoachName;
         existingTeam.Name = team.Name;
+    }
+
+    public bool IsTeamNameUnique(string Name)
+    {
+        var team = _context.Teams.FirstOrDefault(x => x.Name == Name);
+        if (team is null)
+        {
+            return true;
+        }
+        return false;
     }
 }
