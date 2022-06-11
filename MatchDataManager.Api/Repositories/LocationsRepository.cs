@@ -14,6 +14,11 @@ public class LocationsRepository : ILocationsRepository
     public void AddLocation(Location location)
     {
         location.Id = Guid.NewGuid();
+        
+        if (!(IsLocationNameUnique(location.Name)))
+        {
+            throw new ArgumentException("Location name must be unique");
+        }
         _context.Add(location);
     }
 
@@ -38,6 +43,10 @@ public class LocationsRepository : ILocationsRepository
 
     public void UpdateLocation(Location location)
     {
+        if (!(IsLocationNameUnique(location.Name)))
+        {
+            throw new ArgumentException("Location name must be unique");
+        }
         var existingLocation = _context.Locations.FirstOrDefault(x => x.Id == location.Id);
         if (existingLocation is null || location is null)
         {

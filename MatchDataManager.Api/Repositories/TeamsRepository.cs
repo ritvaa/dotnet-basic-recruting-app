@@ -13,6 +13,10 @@ public class TeamsRepository : ITeamRepository
     public void AddTeam(Team team)
     {
         team.Id = Guid.NewGuid();
+        if (!(IsTeamNameUnique(team.Name)))
+        {
+            throw new ArgumentException("Team name must be unique");
+        }
         _context.Add(team);
     }
 
@@ -37,7 +41,12 @@ public class TeamsRepository : ITeamRepository
 
     public void UpdateTeam(Team team)
     {
+        if (!(IsTeamNameUnique(team.Name)))
+        {
+            throw new ArgumentException("Team name must be unique");
+        }
         var existingTeam = _context.Teams.FirstOrDefault(x => x.Id == team.Id);
+
         if (existingTeam is null || team is null)
         {
             throw new ArgumentException("Team doesn't exist.", nameof(team));
