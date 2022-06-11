@@ -6,7 +6,7 @@ namespace MatchDataManager.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TeamsController : ControllerBase
+public class TeamsController : ControllerBase, ITeamsController
 {
     private readonly ITeamRepository _teamRepository;
 

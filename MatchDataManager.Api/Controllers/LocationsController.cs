@@ -6,7 +6,7 @@ namespace MatchDataManager.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class LocationsController : ControllerBase
+public class LocationsController : ControllerBase, ILocationsController
 {
     private readonly ILocationsRepository _locationsRepository;
 
