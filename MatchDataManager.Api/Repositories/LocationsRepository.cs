@@ -15,11 +15,12 @@ public class LocationsRepository : ILocationsRepository
     {
         location.Id = Guid.NewGuid();
         
-        if (!(IsLocationNameUnique(location.Name)))
+        if (!IsLocationNameUnique(location.Name))
         {
             throw new ArgumentException("Location name must be unique");
         }
         _context.Add(location);
+        _context.SaveChanges();
     }
 
     public void DeleteLocation(Guid locationId)
@@ -29,6 +30,7 @@ public class LocationsRepository : ILocationsRepository
         {
             _context.Remove(location);
         }
+        _context.SaveChanges();
     }
 
     public IEnumerable<Location> GetAllLocations()
@@ -55,6 +57,7 @@ public class LocationsRepository : ILocationsRepository
 
         existingLocation.City = location.City;
         existingLocation.Name = location.Name;
+        _context.SaveChanges();
     }
     
     public bool IsLocationNameUnique(string locationName)

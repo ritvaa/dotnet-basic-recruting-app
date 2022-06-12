@@ -18,6 +18,7 @@ public class TeamsRepository : ITeamRepository
             throw new ArgumentException("Team name must be unique");
         }
         _context.Add(team);
+        _context.SaveChanges();
     }
 
     public void DeleteTeam(Guid teamId)
@@ -27,6 +28,7 @@ public class TeamsRepository : ITeamRepository
         {
             _context.Remove(team);
         }
+        _context.SaveChanges();
     }
 
     public IEnumerable<Team> GetAllTeams()
@@ -54,6 +56,7 @@ public class TeamsRepository : ITeamRepository
 
         existingTeam.CoachName = team.CoachName;
         existingTeam.Name = team.Name;
+        _context.SaveChanges();
     }
 
     public bool IsTeamNameUnique(string Name)
