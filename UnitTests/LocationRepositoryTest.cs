@@ -38,24 +38,17 @@ public class LocationRepositoryTest
 
         this.output = output;
     }
+    
+    private List<ValidationResult> ValidateModel<T>(T model)
+    {
+        var context = new ValidationContext(model, null, null);
+        var result = new List<ValidationResult>();
+        var valid = Validator.TryValidateObject(model, context, result, true);
 
-    // [Fact]
-    // public void AddLocationReturnsNewLocation()
-    // {
-    //
-    //     var location = new Location()
-    //     {
-    //         Id = Guid.ParseExact("623f8a0f-e5fc-43e3-979e-9cd20d4d9220", "D"),
-    //         Name = "ExampleLocation",
-    //         City = "ExampleCity"
-    //     };
-    //     
-    //     _locationsRepository.AddLocation(location);
-    //
-    //     var addedLocation =
-    //         _locationsRepository.GetLocationById(Guid.ParseExact("623f8a0f-e5fc-43e3-979e-9cd20d4d9220", "D"));
-    //     Assert.NotNull(addedLocation);
-    // }
+        return result;
+    }
+    
+    
     [Fact]
     public void AddLocationReturnsNewLocation()
     {
@@ -73,15 +66,7 @@ public class LocationRepositoryTest
         var addedLocation = _context.Locations.FirstOrDefault(x => x.Id == location.Id);
         Assert.NotNull(addedLocation);
     }
-    private List<ValidationResult> ValidateModel<T>(T model)
-    {
-        var context = new ValidationContext(model, null, null);
-        var result = new List<ValidationResult>();
-        var valid = Validator.TryValidateObject(model, context, result, true);
-
-        return result;
-    }
-
+    
     [Fact]
     public void AddLocationNameNotUniqueThrowsException()
     {

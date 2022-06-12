@@ -61,13 +61,15 @@ public class DatabaseSeed
             Id = Guid.ParseExact("359757c5-c5d8-48ee-a702-dcc6e239d083", "D"),
             Name = "TeamName1"
         };
-        
+        teamsList.Add(team1);
+
         var team2 = new Team()
         {
             CoachName = "CoachName2",
             Id = Guid.ParseExact("33ddfc6a-5887-44db-923e-01f9c1cae38e", "D"),
             Name = "TeamName2"
         };
+        teamsList.Add(team2);
         
         var team3 = new Team()
         {
@@ -75,6 +77,7 @@ public class DatabaseSeed
             Id = Guid.ParseExact("5af1ec5a-895b-47ae-9c0c-ec56e1293865", "D"),
             Name = "TeamName3"
         };
+        teamsList.Add(team3);
 
         return teamsList;
     }
