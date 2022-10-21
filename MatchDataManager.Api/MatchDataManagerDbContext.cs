@@ -13,9 +13,12 @@ public class MatchDataManagerDbContext : DbContext
     public virtual DbSet<Location> Locations { get; set; }
     public virtual DbSet<Team> Teams { get; set; }
     
+    public virtual DbSet<Match> Matches { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new LocationConfiguration());
         builder.ApplyConfiguration(new TeamConfiguration());
+        builder.ApplyConfiguration(new MatchConfiguration());
     }
 }
